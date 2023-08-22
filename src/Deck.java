@@ -24,7 +24,7 @@ public class Deck {
         cardList.toArray(cards);
     }
 
-    public String[] getCards() {
-        return cards;
+    public String getCard(int i) {
+        return cards[i];
     }
 }

@@ -6,8 +6,6 @@ public class Blackjack {
     Player player;
     Player dealer;
     private int currCard = 0;
-    private static final int winCondition = 21;
-
     
     public Blackjack() {
         deck = new Deck();
@@ -21,11 +19,40 @@ public class Blackjack {
     }
 
     public void play() {
-        
+        deal(player);
+        deal(dealer);
+        deal(player);
+        deal(dealer);
+        while(player.playerHit() || dealer.dealerHit()) {
+            player.playerHit();
+            dealer.dealerHit();
+        }
+        checkWinner();
     }
 
-    public boolean checkWinner() {
+    public void deal(Player p) {
+        String card = deck.getCard(currCard);
+        p.addHand(card);
+        currCard++;
+    }
 
-        return false;
+    public String checkWinner() {
+        if (player.getPoints() > 21) {
+            return "Bust";
+        }
+        if (dealer.getPoints() > 21) {
+            return "Win";
+        }
+        if (player.getPoints() == 21 && dealer.getPoints() == 21) {
+            return "Tie";
+        }
+        if (player.getPoints() == 21 && dealer.getPoints() != 21) {
+            return "Win";
+        }
+        if (player.getPoints() > dealer.getPoints()) {
+            return "Win";
+        } else {
+            return "Lose";
+        }
     }
 }
