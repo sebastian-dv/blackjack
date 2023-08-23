@@ -1,24 +1,20 @@
 package src;
 
 import java.awt.BorderLayout;
+import java.awt.Dimension;
+import java.awt.Image;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.border.Border;
 
 public class GUI {
 
     private JFrame frame;
-    private JPanel panel;
-    private JPanel bottomPanel;
-    private JButton play;
-    private JButton hit;
-    private JButton stand;
-    
-    private ImageIcon card;
 
     public GUI() {
         frame = new JFrame();
@@ -26,32 +22,44 @@ public class GUI {
         frame.setSize(400, 400);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setResizable(false);
-
-        panel = new JPanel();
-        
-
-        card = new ImageIcon(getClass().getResource("card.png"));
-
-        bottomPanel = new JPanel();
+        frame.setLayout(new BorderLayout(0, 0));
     }
 
     public void start() {
-        frame.setLayout(new BorderLayout(0, 10)); 
-
-        JLabel img = new JLabel(card);
-        panel.add(img, BorderLayout.CENTER);
+        // panels for image and button
+        JPanel panel = new JPanel();
+        JPanel bottomPanel = new JPanel();
+        bottomPanel.setPreferredSize(new Dimension(400, 75));
         
-        play = new JButton("Play");
-        play.setSize(100, 70);
-        bottomPanel.add(play, BorderLayout.PAGE_END);
+        // add image to panel
+        JLabel img = createImage("bj.png", 350, 250);
+        panel.add(img);
+        
+        // create and add button to panel
+        JButton play = new JButton("Play");
+        play.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                play();
+            }
+        });
+        bottomPanel.add(play);
 
-        frame.add(panel);
-        frame.add(bottomPanel);
+        // add panel to frame
+        frame.add(panel, BorderLayout.CENTER);
+        frame.add(bottomPanel, BorderLayout.SOUTH);
         frame.setVisible(true);
     }
 
     public void play() {
-
+        
         frame.setVisible(true);
+    }
+
+    private JLabel createImage(String path, int w, int h) {
+        ImageIcon icon = new ImageIcon(getClass().getResource(path));
+        Image image = icon.getImage().getScaledInstance(w, h, Image.SCALE_SMOOTH);
+        icon = new ImageIcon(image);
+        return new JLabel(icon);
     }
 }
