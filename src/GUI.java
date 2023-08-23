@@ -40,7 +40,9 @@ public class GUI {
         play.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                play();
+                frame.dispose();
+                GUI gui = new GUI();
+                gui.play();
             }
         });
         bottomPanel.add(play);
@@ -52,7 +54,34 @@ public class GUI {
     }
 
     public void play() {
-        
+        //Panels
+
+
+        // Buttons
+        JButton exit = new JButton("Exit");
+        exit.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                frame.dispose();
+                GUI gui = new GUI();
+                gui.start();
+            }
+        });
+        JButton hit = new JButton("Hit");
+        hit.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                
+            }
+        });
+        JButton stand = new JButton("Stand");
+        stand.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                
+            }
+        });
+
         frame.setVisible(true);
     }
 
