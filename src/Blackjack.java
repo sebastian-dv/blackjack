@@ -23,17 +23,13 @@ public class Blackjack {
         deal(dealer);
         deal(player);
         deal(dealer);
-        while(player.playerHit() || dealer.dealerHit()) {
-            player.playerHit();
-            dealer.dealerHit();
-        }
-        checkWinner();
     }
 
-    public void deal(Player p) {
+    public String deal(Player p) {
         String card = deck.getCard(currCard);
         p.addHand(card);
         currCard++;
+        return card;
     }
 
     public String checkWinner() {

@@ -58,12 +58,6 @@ public class Player {
     }
 
     // return true on hit, false on stand
-    public boolean playerHit() {
-        
-        return false;
-    }
-
-    // return true on hit, false on stand
     public boolean dealerHit() {
         if (this.getPoints() < 17) {
             return true;

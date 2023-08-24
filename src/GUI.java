@@ -11,7 +11,6 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.border.Border;
 import javax.swing.border.EmptyBorder;
 
 public class GUI {
@@ -79,6 +78,12 @@ public class GUI {
         // Labels
         JLabel deck = createImage("images/card.png", 100, 150);
 
+        // Starting the game
+        Blackjack bj = new Blackjack();
+        bj.play();
+        Player p = bj.player;
+        Player d = bj.dealer;
+
         // Buttons
         JButton exitButton = new JButton("Exit");
         exitButton.addActionListener(new ActionListener() {
@@ -93,7 +98,8 @@ public class GUI {
         hit.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                
+                String card = bj.deal(p);
+                dealCard(p, card);
             }
         });
         JButton stand = new JButton("Stand");
@@ -103,6 +109,8 @@ public class GUI {
                 
             }
         });
+
+        
 
         // adding components to panels
         exit.add(exitButton);
@@ -124,5 +132,10 @@ public class GUI {
         Image image = icon.getImage().getScaledInstance(w, h, Image.SCALE_SMOOTH);
         icon = new ImageIcon(image);
         return new JLabel(icon);
+    }
+
+    private void dealCard(Player p, String c) {
+        String card = c.replace(' ', '_') + ".png";
+        
     }
 }
