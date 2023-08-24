@@ -1,6 +1,7 @@
 package src;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
@@ -10,6 +11,8 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.border.Border;
+import javax.swing.border.EmptyBorder;
 
 public class GUI {
 
@@ -21,7 +24,7 @@ public class GUI {
         frame.setSize(400, 400);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setResizable(false);
-        frame.setLayout(new BorderLayout(0, 0));
+        frame.setLayout(new BorderLayout());
     }
 
     public void start() {
@@ -53,10 +56,28 @@ public class GUI {
     }
 
     public void play() {
-        //Panels
+        // Panels
         JPanel exit = new JPanel();
         JPanel dealer = new JPanel();
         JPanel player = new JPanel();
+        JPanel playerButtons = new JPanel();
+
+        dealer.setLayout(new BorderLayout());
+        dealer.setBorder(new EmptyBorder(0, 10, 0, 10));
+        player.setLayout(new BorderLayout());
+
+        exit.setPreferredSize(new Dimension(75, 200));
+        dealer.setPreferredSize(new Dimension(325, 200));
+        playerButtons.setPreferredSize(new Dimension(75, 200));
+        player.setPreferredSize(new Dimension(325, 200));
+
+        exit.setBackground(new Color(1, 50, 32));
+        dealer.setBackground(new Color(1, 50, 32));
+        playerButtons.setBackground(new Color(1, 50, 32));
+        player.setBackground(new Color(1, 50, 32));
+
+        // Labels
+        JLabel deck = createImage("images/card.png", 100, 150);
 
         // Buttons
         JButton exitButton = new JButton("Exit");
@@ -84,12 +105,16 @@ public class GUI {
         });
 
         // adding components to panels
-
+        exit.add(exitButton);
+        dealer.add(deck, BorderLayout.EAST);
+        playerButtons.add(hit);
+        playerButtons.add(stand);
+        player.add(playerButtons, BorderLayout.WEST);
 
         // adding panels to frame
-        frame.add(exit);
-        frame.add(dealer);
-        frame.add(player);
+        frame.add(exit, BorderLayout.LINE_START);
+        frame.add(dealer, BorderLayout.CENTER);
+        frame.add(player, BorderLayout.PAGE_END);
 
         frame.setVisible(true);
     }
