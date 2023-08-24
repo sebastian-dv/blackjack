@@ -5,7 +5,6 @@ import java.awt.Dimension;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -32,7 +31,7 @@ public class GUI {
         bottomPanel.setPreferredSize(new Dimension(400, 75));
         
         // add image to panel
-        JLabel img = createImage("bj.png", 350, 250);
+        JLabel img = createImage("images/bj.png", 350, 250);
         panel.add(img);
         
         // create and add button to panel
@@ -55,11 +54,13 @@ public class GUI {
 
     public void play() {
         //Panels
-
+        JPanel exit = new JPanel();
+        JPanel dealer = new JPanel();
+        JPanel player = new JPanel();
 
         // Buttons
-        JButton exit = new JButton("Exit");
-        exit.addActionListener(new ActionListener() {
+        JButton exitButton = new JButton("Exit");
+        exitButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 frame.dispose();
@@ -81,6 +82,14 @@ public class GUI {
                 
             }
         });
+
+        // adding components to panels
+
+
+        // adding panels to frame
+        frame.add(exit);
+        frame.add(dealer);
+        frame.add(player);
 
         frame.setVisible(true);
     }
