@@ -37,18 +37,18 @@ public class Blackjack {
             return "Bust";
         }
         if (dealer.getPoints() > 21) {
-            return "Win";
+            return "You Win";
         }
         if (player.getPoints() == 21 && dealer.getPoints() == 21) {
             return "Tie";
         }
         if (player.getPoints() == 21 && dealer.getPoints() != 21) {
-            return "Win";
+            return "You Win";
         }
         if (player.getPoints() > dealer.getPoints()) {
-            return "Win";
+            return "You Win";
         } else {
-            return "Lose";
+            return "You Lose";
         }
     }
 }

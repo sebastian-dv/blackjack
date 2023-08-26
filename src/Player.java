@@ -31,6 +31,11 @@ public class Player {
         return points;
     }
 
+    public String getCard(int i) {
+        return this.hand.get(i);
+    }
+
+
     public void calcPoints() {
         points = 0;
         int s = hand.size();

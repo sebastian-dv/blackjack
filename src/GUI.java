@@ -2,10 +2,14 @@ package src;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Dimension;
+import java.awt.FlowLayout;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+
+import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -16,6 +20,8 @@ import javax.swing.border.EmptyBorder;
 public class GUI {
 
     private JFrame frame;
+    private JPanel player;
+    private JPanel dealer;
 
     public GUI() {
         frame = new JFrame();
@@ -55,20 +61,24 @@ public class GUI {
     }
 
     public void play() {
+        frame.setSize(600, 425);
+
         // Panels
         JPanel exit = new JPanel();
-        JPanel dealer = new JPanel();
-        JPanel player = new JPanel();
+        dealer = new JPanel();
+        player = new JPanel();
         JPanel playerButtons = new JPanel();
 
-        dealer.setLayout(new BorderLayout());
-        dealer.setBorder(new EmptyBorder(0, 10, 0, 10));
-        player.setLayout(new BorderLayout());
+        dealer.setLayout(new FlowLayout(FlowLayout.LEFT));
+        dealer.setBorder(new EmptyBorder(4, 5, 0, 10));
+        player.setLayout(new FlowLayout(FlowLayout.LEFT));
+        player.setBorder(new EmptyBorder(0, 0, 0, 0));
+        playerButtons.setBorder(new EmptyBorder(16, 0, 0, 0));
 
         exit.setPreferredSize(new Dimension(75, 200));
-        dealer.setPreferredSize(new Dimension(325, 200));
+        dealer.setPreferredSize(new Dimension(525, 200));
         playerButtons.setPreferredSize(new Dimension(75, 200));
-        player.setPreferredSize(new Dimension(325, 200));
+        player.setPreferredSize(new Dimension(525, 200));
 
         exit.setBackground(new Color(1, 50, 32));
         dealer.setBackground(new Color(1, 50, 32));
@@ -76,13 +86,28 @@ public class GUI {
         player.setBackground(new Color(1, 50, 32));
 
         // Labels
-        JLabel deck = createImage("images/card.png", 100, 150);
+        JLabel cardBack = createImage("images/card.png", 100, 150);
 
         // Starting the game
         Blackjack bj = new Blackjack();
         bj.play();
         Player p = bj.player;
         Player d = bj.dealer;
+        
+        // adding player's cards
+        for (int i = 0; i < 2; i ++) {
+            String card = p.getCard(i);
+            card = "images/" + card.replace(' ', '_') + ".png";
+            JLabel cardImage = createImage(card, 100, 150);
+            player.add(cardImage);
+        }
+
+        // adding dealer's cards
+        String card = d.getCard(0);
+        card = "images/" + card.replace(' ', '_') + ".png";
+        JLabel cardImage = createImage(card, 100, 150);
+        dealer.add(cardImage);
+        dealer.add(cardBack);
 
         // Buttons
         JButton exitButton = new JButton("Exit");
@@ -99,25 +124,36 @@ public class GUI {
             @Override
             public void actionPerformed(ActionEvent e) {
                 String card = bj.deal(p);
-                dealCard(p, card);
+                card = "images/" + card.replace(' ', '_') + ".png";
+                JLabel cardImage = createImage(card, 100, 150); 
+                player.add(cardImage);
+                p.calcPoints();
+                frame.validate();;
+                int points = p.getPoints();
+                if (points > 21) {
+                    playerButtons.setVisible(false);
+                    player.setBorder(new EmptyBorder(25, 10, 0, 0));
+                    // add bust here
+                }
             }
         });
         JButton stand = new JButton("Stand");
         stand.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                
+                playerButtons.setVisible(false);
+                player.setBorder(new EmptyBorder(25, 10, 0, 0));
+                // dealerTurn(d);
+                results(bj);
             }
-        });
-
-        
+        });;
 
         // adding components to panels
         exit.add(exitButton);
-        dealer.add(deck, BorderLayout.EAST);
+        //dealer.add(deck, FlowLayout.RIGHT);
         playerButtons.add(hit);
         playerButtons.add(stand);
-        player.add(playerButtons, BorderLayout.WEST);
+        player.add(playerButtons, FlowLayout.LEFT);
 
         // adding panels to frame
         frame.add(exit, BorderLayout.LINE_START);
@@ -134,8 +170,48 @@ public class GUI {
         return new JLabel(icon);
     }
 
-    private void dealCard(Player p, String c) {
-        String card = c.replace(' ', '_') + ".png";
+    private void dealerTurn(Player d) {
         
+        
+    }
+
+    private void results(Blackjack b) {
+        String results = b.checkWinner();
+
+        JFrame f = new JFrame("Results");
+        f.setSize(150, 100);
+        f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        f.setResizable(false);
+
+        JPanel resultPanel = new JPanel();
+        resultPanel.setLayout(new BoxLayout(resultPanel, BoxLayout.Y_AXIS));
+        resultPanel.setBorder(new EmptyBorder(10, 0, 0, 0));
+        
+        JLabel resultText = new JLabel(results + "!");
+
+        JButton retry = new JButton("Play Again");
+        retry.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                f.dispose();
+                frame.dispose();
+                GUI gui = new GUI();
+                gui.play();
+            }
+            
+        });
+        
+        // center aligning components
+        resultText.setAlignmentX(Component.CENTER_ALIGNMENT);
+        retry.setAlignmentX(Component.CENTER_ALIGNMENT);
+
+        // adding components to panel
+        resultPanel.add(resultText, Component.CENTER_ALIGNMENT);
+        resultPanel.add(retry, Component.CENTER_ALIGNMENT);
+
+        // adding panel to frame
+        f.add(resultPanel);
+
+        f.setVisible(true);
     }
 }
