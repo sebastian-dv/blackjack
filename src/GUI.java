@@ -109,7 +109,7 @@ public class GUI {
         dealer.add(cardImage);
         dealer.add(cardBack);
 
-        // Buttons
+        // exit button
         JButton exitButton = new JButton("Exit");
         exitButton.addActionListener(new ActionListener() {
             @Override
@@ -119,6 +119,7 @@ public class GUI {
                 gui.start();
             }
         });
+        // hit button
         JButton hit = new JButton("Hit");
         hit.addActionListener(new ActionListener() {
             @Override
@@ -137,6 +138,7 @@ public class GUI {
                 }
             }
         });
+        // stand button
         JButton stand = new JButton("Stand");
         stand.addActionListener(new ActionListener() {
             @Override
@@ -150,7 +152,6 @@ public class GUI {
 
         // adding components to panels
         exit.add(exitButton);
-        //dealer.add(deck, FlowLayout.RIGHT);
         playerButtons.add(hit);
         playerButtons.add(stand);
         player.add(playerButtons, FlowLayout.LEFT);
@@ -172,7 +173,10 @@ public class GUI {
 
     private void dealerTurn(Player d) {
         
-        
+    }
+
+    private void revealDealersCards(Player d) {
+
     }
 
     private void results(Blackjack b) {

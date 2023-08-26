@@ -39,21 +39,22 @@ public class Player {
     public void calcPoints() {
         points = 0;
         int s = hand.size();
-        boolean ace = false;
+        int aceCount = 0;
         for (int i = 0; i < s; i++) {
             int index = hand.get(i).indexOf(" ");
             String rank = hand.get(i).substring(0, index);
             if (rank.equals("ACE")) {
-                ace = true;
+                aceCount++;
             } else {
                 points += values.get(rank);
             }
         }
-        if (ace) {
+        if (aceCount != 0) {
             if (points + 11 > 21) {
-                points += 1;
+                points += aceCount;
             } else {
                 points += 11;
+                points += aceCount - 1;
             }
         }
     }
