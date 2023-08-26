@@ -39,7 +39,7 @@ public class Blackjack {
         if (dealer.getPoints() > 21) {
             return "You Win";
         }
-        if (player.getPoints() == 21 && dealer.getPoints() == 21) {
+        if (player.getPoints() == dealer.getPoints()) {
             return "Tie";
         }
         if (player.getPoints() == 21 && dealer.getPoints() != 21) {

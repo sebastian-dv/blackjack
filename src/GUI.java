@@ -107,7 +107,12 @@ public class GUI {
         card = "images/" + card.replace(' ', '_') + ".png";
         JLabel cardImage = createImage(card, 100, 150);
         dealer.add(cardImage);
-        dealer.add(cardBack);
+        card = d.getCard(1);
+        card = "images/" + card.replace(' ', '_') + ".png";
+        cardImage = createImage(card, 100, 150);
+        dealer.add(cardImage);
+        
+        //dealer.add(cardBack);
 
         // exit button
         JButton exitButton = new JButton("Exit");
@@ -134,7 +139,7 @@ public class GUI {
                 if (points > 21) {
                     playerButtons.setVisible(false);
                     player.setBorder(new EmptyBorder(25, 10, 0, 0));
-                    // add bust here
+                    results(bj);
                 }
             }
         });
@@ -145,7 +150,9 @@ public class GUI {
             public void actionPerformed(ActionEvent e) {
                 playerButtons.setVisible(false);
                 player.setBorder(new EmptyBorder(25, 10, 0, 0));
-                // dealerTurn(d);
+                dealerTurn(d, bj);
+                p.calcPoints();
+                d.calcPoints();
                 results(bj);
             }
         });;
@@ -171,8 +178,16 @@ public class GUI {
         return new JLabel(icon);
     }
 
-    private void dealerTurn(Player d) {
-        
+    private void dealerTurn(Player d, Blackjack b) {
+        int i = 2;
+        while (d.dealerHit()) {
+            b.deal(d);
+            String card = d.getCard(i);
+            card = "images/" + card.replace(' ', '_') + ".png";
+            JLabel cardImage = createImage(card, 100, 150);
+            dealer.add(cardImage);
+            i++;
+        }
     }
 
     private void revealDealersCards(Player d) {
