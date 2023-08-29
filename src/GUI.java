@@ -61,6 +61,7 @@ public class GUI {
     }
 
     public void play() {
+        frame.setResizable(true);
         frame.setSize(600, 425);
 
         // Panels
@@ -107,12 +108,7 @@ public class GUI {
         card = "images/" + card.replace(' ', '_') + ".png";
         JLabel cardImage = createImage(card, 100, 150);
         dealer.add(cardImage);
-        card = d.getCard(1);
-        card = "images/" + card.replace(' ', '_') + ".png";
-        cardImage = createImage(card, 100, 150);
-        dealer.add(cardImage);
-        
-        //dealer.add(cardBack);
+        dealer.add(cardBack);
 
         // exit button
         JButton exitButton = new JButton("Exit");
@@ -137,6 +133,11 @@ public class GUI {
                 frame.validate();;
                 int points = p.getPoints();
                 if (points > 21) {
+                    cardBack.setVisible(false);
+                    card = d.getCard(1);
+                    card = "images/" + card.replace(' ', '_') + ".png";
+                    cardImage = createImage(card, 100, 150);
+                    dealer.add(cardImage);
                     playerButtons.setVisible(false);
                     player.setBorder(new EmptyBorder(25, 10, 0, 0));
                     results(bj);
@@ -150,6 +151,7 @@ public class GUI {
             public void actionPerformed(ActionEvent e) {
                 playerButtons.setVisible(false);
                 player.setBorder(new EmptyBorder(25, 10, 0, 0));
+                cardBack.setVisible(false);
                 dealerTurn(d, bj);
                 p.calcPoints();
                 d.calcPoints();
@@ -179,19 +181,19 @@ public class GUI {
     }
 
     private void dealerTurn(Player d, Blackjack b) {
+        String card = d.getCard(1);
+        card = "images/" + card.replace(' ', '_') + ".png";
+        JLabel cardImage = createImage(card, 100, 150);
+        dealer.add(cardImage);
         int i = 2;
         while (d.dealerHit()) {
             b.deal(d);
-            String card = d.getCard(i);
+            card = d.getCard(i);
             card = "images/" + card.replace(' ', '_') + ".png";
-            JLabel cardImage = createImage(card, 100, 150);
+            cardImage = createImage(card, 100, 150);
             dealer.add(cardImage);
             i++;
         }
-    }
-
-    private void revealDealersCards(Player d) {
-
     }
 
     private void results(Blackjack b) {
